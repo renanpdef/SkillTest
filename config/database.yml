@@ -51,4 +51,5 @@ production:
   <<: *default
   database: maxillary_depth_production
   username: root
-  password: ge9kallen0
+  password: guitarra
+  # password: ge9kallen0
