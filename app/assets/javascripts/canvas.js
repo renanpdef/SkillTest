@@ -1,4 +1,4 @@
-window.onload = () => {
+window.addEventListener('load', function() {
     var Renderer=new THREE.WebGLRenderer();
     var Scene=new THREE.Scene();
     var Camera=new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -13,7 +13,6 @@ window.onload = () => {
         document.getElementById("render").appendChild(Renderer.domElement);
         Camera.position.z=500;
         Controls = new THREE.TrackballControls(Camera);
-        Controls.addEventListener('change', render);
         Scene.add(Camera);
         load_model();
     }
@@ -82,13 +81,10 @@ window.onload = () => {
     function animate(){
         requestAnimationFrame(animate);
         Controls.update();
+        render();
     }
 
     function render(){
-        // Controls.update();
-        // group.rotation.y=group.rotation.y+0.01;
-        // group.lookAt(0,0,0);
-        // console.log(group.position);
         Renderer.render(Scene,Camera);
     }
-}
+})
