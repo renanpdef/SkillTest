@@ -68,6 +68,7 @@ window.addEventListener('load', function() {
         material=new THREE.ParticleBasicMaterial({color:0XFF0000}); // define line color
         material_2=new THREE.ParticleBasicMaterial({color:0X0000FF});// define intersection line color
         
+        //creating the line figure, grouping and adding to the scene.
         figure_po_or=new THREE.Line(line_po_or,material);
         group.add(figure_po_or);
         figure_or_na=new THREE.Line(line_or_na,material_2);
