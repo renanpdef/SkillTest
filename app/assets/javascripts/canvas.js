@@ -1,28 +1,30 @@
 window.addEventListener('load', function() {
-    var Renderer=new THREE.WebGLRenderer();
-    var Scene=new THREE.Scene();
-    var Camera=new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    var Controls;
+    var renderer=new THREE.WebGLRenderer();
+    var scene=new THREE.Scene();
+    var camera=new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    var controls;
     var group = new THREE.Group();
 
     init();
     animate();
 
     function init(){
-        Renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
-        document.getElementById("render").appendChild(Renderer.domElement);
-        Camera.position.z=500;
-        Controls = new THREE.TrackballControls(Camera);
-        Scene.add(Camera);
+        renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
+        document.getElementById("render").appendChild(renderer.domElement);
+        camera.position.z=500;
+        controls = new THREE.TrackballControls(camera);
+        scene.add(camera);
         load_model();
     }
 
     function load_model(){
         var points = ["point_po", "point_or", "point_n", "point_a"]
+
         line_po_or=new THREE.Geometry();
         line_n_a=new THREE.Geometry();
         line_or_na=new THREE.Geometry();
 
+        // declaring spheres to mark the points on the graph.
         var po_geometry = new THREE.SphereGeometry( 6, 32, 32 );
         var po_ball_material = new THREE.MeshBasicMaterial( {color: 0x00BFFF} );
         var po_sphere = new THREE.Mesh( po_geometry, po_ball_material);
@@ -39,7 +41,7 @@ window.addEventListener('load', function() {
         var spheres = [po_sphere, or_sphere, n_sphere, a_sphere];
 
         
-
+        //create the lines formed by the points
         for (var i = 0; i < points.length; i++){
             point = document.getElementById(points[i]).innerText;
             x = point.slice(point.indexOf("x: ")+3,point.indexOf(','));
@@ -63,28 +65,27 @@ window.addEventListener('load', function() {
             }
         }
         
-        Material=new THREE.ParticleBasicMaterial({color:0XFF0000});
-        Material2=new THREE.ParticleBasicMaterial({color:0X0000FF});
+        material=new THREE.ParticleBasicMaterial({color:0XFF0000}); // define line color
+        material_2=new THREE.ParticleBasicMaterial({color:0X0000FF});// define intersection line color
         
-        Figure_po_or=new THREE.Line(line_po_or,Material);
-        group.add(Figure_po_or);
-        Figure_or_na=new THREE.Line(line_or_na,Material2);
-        group.add(Figure_or_na);
-        Figure_n_a=new THREE.Line(line_n_a,Material);
-        group.add(Figure_n_a);
-        // console.log(parseFloat(line_n_a.vertices[0].getComponent(1)));
+        figure_po_or=new THREE.Line(line_po_or,material);
+        group.add(figure_po_or);
+        figure_or_na=new THREE.Line(line_or_na,material_2);
+        group.add(figure_or_na);
+        figure_n_a=new THREE.Line(line_n_a,material);
+        group.add(figure_n_a);
         group.position.x = -600;
         group.position.y = -400;
-        Scene.add(group);
+        scene.add(group);
     }
 
     function animate(){
         requestAnimationFrame(animate);
-        Controls.update();
+        controls.update();
         render();
     }
 
     function render(){
-        Renderer.render(Scene,Camera);
+        renderer.render(scene,camera);
     }
 })
